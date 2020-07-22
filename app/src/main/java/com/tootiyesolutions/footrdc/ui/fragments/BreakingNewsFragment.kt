@@ -56,11 +56,6 @@ class BreakingNewsFragment : Fragment() {
         // get the view model
         viewModel = ViewModelProvider(this, Injection.provideViewModelFactory())
             .get(AppViewModel::class.java)
-        val monText:String = "TP Mazembe vs FC Lupopo"
-        val textTemp1 = monText.replaceAfter(" vs ", "").replace(" vs ", "", false)
-        val textTemp2 = monText.replaceBefore(" vs ", "")
-        Log.d("Valynk replaceAfter", textTemp1)
-        Log.d("Valynk replaceBefore", textTemp2)
 
         // add dividers between RecyclerView's row items
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
