@@ -20,18 +20,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_saved_news"
-        android:name="com.tootiyesolutions.footrdc.ui.fragments.SavedNewsFragment"
-        android:label="@string/saved_news"
-        tools:layout="@layout/fragment_saved_news" >
-        <action
-            android:id="@+id/action_navigation_saved_news_to_detailNewsFragment"
-            app:destination="@id/detailNewsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
+        android:id="@+id/navigation_results"
+        android:name="com.tootiyesolutions.footrdc.ui.fragments.ResultsFragment"
+        android:label="@string/results"
+        tools:layout="@layout/fragment_results" />
 
     <fragment
         android:id="@+id/navigation_search_news"

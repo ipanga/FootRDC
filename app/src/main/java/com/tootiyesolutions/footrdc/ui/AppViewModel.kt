@@ -6,29 +6,25 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import com.tootiyesolutions.footrdc.model.Article
-import com.tootiyesolutions.footrdc.repository.NewsRepository
+import com.tootiyesolutions.footrdc.model.Result
+import com.tootiyesolutions.footrdc.repository.AppRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the [SearchNewsFragment] screen.
- * The ViewModel works with the [NewsRepository] to get the data.
+ * The ViewModel works with the [AppRepository] to get the data.
  */
 @ExperimentalCoroutinesApi
-class SearchNewsViewModel(private val repository: NewsRepository) : ViewModel() {
-    private var currentQueryValue: String? = null
+class AppViewModel(private val repository: AppRepository) : ViewModel() {
 
-    private var currentSearchResult: Flow<PagingData<UiModel>>? = null
+    private var currentSearchNews: Flow<PagingData<UiModel>>? = null
+    private var currentSearchResults: Flow<PagingData<Result>>? = null
 
-    fun searchRepo(queryString: String): Flow<PagingData<UiModel>> {
-        val lastResult = currentSearchResult
-        if (queryString == currentQueryValue && lastResult != null) {
-            return lastResult
-        }
-        currentQueryValue = queryString
-        val newResult: Flow<PagingData<UiModel>> = repository.getSearchResultStream(queryString)
+    fun fetchNews(): Flow<PagingData<UiModel>> {
+
+        val newResult: Flow<PagingData<UiModel>> = repository.getSearchNewsStream()
             .map { pagingData -> pagingData.map { UiModel.NewsItem(it) } }
             .map {
                 it.insertSeparators<UiModel.NewsItem, UiModel> { before, after ->
@@ -56,18 +52,16 @@ class SearchNewsViewModel(private val repository: NewsRepository) : ViewModel() 
                 }
             }
             .cachedIn(viewModelScope)
-        currentSearchResult = newResult
+        currentSearchNews = newResult
         return newResult
     }
 
-    fun saveNews(article: Article) = viewModelScope.launch {
-        repository.upsert(article)
-    }
-
-    fun getSavedNews() = repository.getSavedNews()
-
-    fun deleteArticle(article: Article) = viewModelScope.launch {
-        repository.deleteNews(article)
+    // Search for games results
+    fun fetchResults(): Flow<PagingData<Result>> {
+        val newResult: Flow<PagingData<Result>> = repository.getSearchResultsStream()
+            .cachedIn(viewModelScope)
+        currentSearchResults = newResult
+        return newResult
     }
 
 }

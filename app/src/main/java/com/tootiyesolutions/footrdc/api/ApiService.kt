@@ -1,6 +1,7 @@
 package com.tootiyesolutions.footrdc.api
 
 import com.tootiyesolutions.footrdc.model.Article
+import com.tootiyesolutions.footrdc.model.Result
 import com.tootiyesolutions.footrdc.util.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,12 +17,13 @@ interface ApiService {
         @Query("per_page") newsPerPage: Int
     ): List<Article>
 
-    @GET("wp-json/wp/v2/posts")
-    suspend fun searchForNews(
-        @Query("search") searchQuery: String,
+    @GET("wp-json/sportspress/v2/events")
+    suspend fun getResults(
+        @Query("leagues") leaguesId: Int,
+        @Query("seasons") seasonsId: Int,
         @Query("page") pageNumber: Int,
-        @Query("per_page") newsPerPage: Int
-    ): List<Article>
+        @Query("per_page") resultsPerPage: Int
+    ): List<Result>
 
     companion object {
 
@@ -38,6 +40,7 @@ interface ApiService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService::class.java)
+
         }
     }
 }

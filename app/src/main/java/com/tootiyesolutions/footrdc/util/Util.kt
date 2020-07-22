@@ -30,3 +30,11 @@ fun ImageView.loadImage(uri: String?, progressDrawable: CircularProgressDrawable
 fun loadImage(view: ImageView, url: String?) {
     view.loadImage(url, getProgressDrawable(view.context))
 }
+
+fun firstTeam(allTeams: String): String{
+    return allTeams.replaceAfter(" vs ", "").replace(" vs ", "", false)
+}
+
+fun secondTeam(allTeams: String): String{
+    return allTeams.replaceBefore(" vs ", "").replace(" vs ", "", false)
+}

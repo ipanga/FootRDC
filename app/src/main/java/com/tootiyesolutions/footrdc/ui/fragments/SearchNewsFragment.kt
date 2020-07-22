@@ -18,7 +18,7 @@ import com.tootiyesolutions.footrdc.Injection
 import com.tootiyesolutions.footrdc.adapter.NewsAdapter
 import com.tootiyesolutions.footrdc.adapter.NewsLoadStateAdapter
 import com.tootiyesolutions.footrdc.databinding.FragmentSearchNewsBinding
-import com.tootiyesolutions.footrdc.ui.SearchNewsViewModel
+import com.tootiyesolutions.footrdc.ui.AppViewModel
 import com.tootiyesolutions.footrdc.util.Constants.Companion.DEFAULT_QUERY
 import com.tootiyesolutions.footrdc.util.Constants.Companion.LAST_SEARCH_QUERY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,16 +34,16 @@ class SearchNewsFragment : Fragment() {
     private var _binding: FragmentSearchNewsBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: SearchNewsViewModel
+    private lateinit var viewModel: AppViewModel
     private val adapter = NewsAdapter()
 
     private var searchJob: Job? = null
 
-    private fun search(query: String) {
+    private fun search() {
         // Make sure we cancel the previous job before creating a new one
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            viewModel.searchRepo(query).collectLatest {
+            viewModel.fetchNews().collectLatest {
                 adapter.submitData(it)
             }
         }
@@ -58,8 +58,8 @@ class SearchNewsFragment : Fragment() {
         val view = binding.root
 
         // get the view model
-        viewModel = ViewModelProvider(this, Injection.provideViewModelFactory(requireContext()))
-            .get(SearchNewsViewModel::class.java)
+        viewModel = ViewModelProvider(this, Injection.provideViewModelFactory())
+            .get(AppViewModel::class.java)
 
         // add dividers between RecyclerView's row items
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
@@ -67,8 +67,8 @@ class SearchNewsFragment : Fragment() {
 
         initAdapter()
         val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
-        search(query)
-        initSearch(query)
+        search()
+        initSearch()
         binding.btRetrySearchNews.setOnClickListener { adapter.retry() }
         return view
     }
@@ -107,9 +107,7 @@ class SearchNewsFragment : Fragment() {
 
     }
 
-    private fun initSearch(query: String) {
-        binding.etQuerySearchNews.setText(query)
-
+    private fun initSearch() {
         binding.etQuerySearchNews.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
                 updateRepoListFromInput()
@@ -138,7 +136,7 @@ class SearchNewsFragment : Fragment() {
     private fun updateRepoListFromInput() {
         binding.etQuerySearchNews.text.trim().let {
             if (it.isNotEmpty()) {
-                search(it.toString())
+                search()
             }
         }
     }

@@ -21,7 +21,7 @@ class FootRdcActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_breaking_news,
-            R.id.navigation_saved_news,
+            R.id.navigation_results,
             R.id.navigation_search_news
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)

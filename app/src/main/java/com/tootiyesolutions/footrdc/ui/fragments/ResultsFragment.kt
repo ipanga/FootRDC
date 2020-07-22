@@ -1,7 +1,6 @@
 package com.tootiyesolutions.footrdc.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,25 +12,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.tootiyesolutions.footrdc.Injection
-import com.tootiyesolutions.footrdc.adapter.NewsAdapter
 import com.tootiyesolutions.footrdc.adapter.NewsLoadStateAdapter
-import com.tootiyesolutions.footrdc.databinding.FragmentBreakingNewsBinding
+import com.tootiyesolutions.footrdc.adapter.ResultsAdapter
+import com.tootiyesolutions.footrdc.databinding.FragmentResultsBinding
 import com.tootiyesolutions.footrdc.ui.AppViewModel
-import com.tootiyesolutions.footrdc.util.Constants
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class BreakingNewsFragment : Fragment() {
+class ResultsFragment : Fragment(){
 
     // This property is only valid between onCreateView and onDestroyView.
-    private var _binding: FragmentBreakingNewsBinding? = null
+    private var _binding: FragmentResultsBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: AppViewModel
-    private val adapter = NewsAdapter()
+    private val adapter = ResultsAdapter()
 
     private var searchJob: Job? = null
 
@@ -39,56 +37,46 @@ class BreakingNewsFragment : Fragment() {
         // Make sure we cancel the previous job before creating a new one
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            viewModel.fetchNews().collectLatest {
+            viewModel.fetchResults().collectLatest {
                 adapter.submitData(it)
             }
         }
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentBreakingNewsBinding.inflate(inflater, container, false)
+        _binding = FragmentResultsBinding.inflate(inflater, container, false)
         val view = binding.root
 
         // get the view model
         viewModel = ViewModelProvider(this, Injection.provideViewModelFactory())
             .get(AppViewModel::class.java)
-        val monText:String = "TP Mazembe vs FC Lupopo"
-        val textTemp1 = monText.replaceAfter(" vs ", "").replace(" vs ", "", false)
-        val textTemp2 = monText.replaceBefore(" vs ", "")
-        Log.d("Valynk replaceAfter", textTemp1)
-        Log.d("Valynk replaceBefore", textTemp2)
 
         // add dividers between RecyclerView's row items
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        binding.rvBreakingNews.addItemDecoration(decoration)
+        binding.rvResults.addItemDecoration(decoration)
 
         initAdapter()
         search()
-        binding.btRetryBreakingNews.setOnClickListener { adapter.retry() }
+        binding.btRetryResults.setOnClickListener { adapter.retry() }
         return view
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(Constants.LAST_SEARCH_QUERY, Constants.GET_BREAKING_NEWS)
-    }
-
     private fun initAdapter() {
-        binding.rvBreakingNews.adapter = adapter.withLoadStateHeaderAndFooter(
+        binding.rvResults.adapter = adapter.withLoadStateHeaderAndFooter(
             header = NewsLoadStateAdapter { adapter.retry() },
             footer = NewsLoadStateAdapter { adapter.retry() }
         )
         adapter.addLoadStateListener { loadState ->
             // Only show the list if refresh succeeds.
-            binding.rvBreakingNews.isVisible = loadState.source.refresh is LoadState.NotLoading
+            binding.rvResults.isVisible = loadState.source.refresh is LoadState.NotLoading
             // Show loading spinner during initial load or refresh.
-            binding.pbBreakingNews.isVisible = loadState.source.refresh is LoadState.Loading
+            binding.pbResults.isVisible = loadState.source.refresh is LoadState.Loading
             // Show the retry state if initial load or refresh fails.
-            binding.btRetryBreakingNews.isVisible = loadState.source.refresh is LoadState.Error
+            binding.btRetryResults.isVisible = loadState.source.refresh is LoadState.Error
 
             // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
             val errorState = loadState.source.append as? LoadState.Error
@@ -103,5 +91,6 @@ class BreakingNewsFragment : Fragment() {
                 ).show()
             }
         }
+
     }
 }

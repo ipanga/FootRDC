@@ -1,19 +1,12 @@
 package com.tootiyesolutions.footrdc.adapter
 
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tootiyesolutions.footrdc.R
-import com.tootiyesolutions.footrdc.databinding.ItemNewsPreviewBinding
-import com.tootiyesolutions.footrdc.model.Article
 import com.tootiyesolutions.footrdc.ui.UiModel
-import com.tootiyesolutions.footrdc.ui.fragments.BreakingNewsFragmentDirections
-import com.tootiyesolutions.footrdc.ui.fragments.SavedNewsFragmentDirections
-import com.tootiyesolutions.footrdc.ui.fragments.SearchNewsFragmentDirections
 
 /**
  * Adapter for the list of news.
