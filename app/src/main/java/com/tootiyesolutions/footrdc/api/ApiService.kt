@@ -2,6 +2,7 @@ package com.tootiyesolutions.footrdc.api
 
 import com.tootiyesolutions.footrdc.model.Article
 import com.tootiyesolutions.footrdc.model.Result
+import com.tootiyesolutions.footrdc.model.TablesItem
 import com.tootiyesolutions.footrdc.util.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,6 +25,13 @@ interface ApiService {
         @Query("page") pageNumber: Int,
         @Query("per_page") resultsPerPage: Int
     ): List<Result>
+
+    @GET("wp-json/sportspress/v2/tables")
+    suspend fun getTables(
+        @Query("leagues") leaguesId: Int,
+        @Query("seasons") seasonsId: Int,
+        @Query("page") pageNumber: Int
+    ): List<TablesItem>
 
     companion object {
 

@@ -14,16 +14,16 @@ class NewsLoadStateViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
-        binding.retryButton.setOnClickListener { retry.invoke() }
+        binding.btLoadStateRetry.setOnClickListener { retry.invoke() }
     }
 
     fun bind(loadState: LoadState) {
         if (loadState is LoadState.Error) {
-            binding.errorMsg.text = loadState.error.localizedMessage
+            binding.tvLoadStateErrorMessage.text = loadState.error.localizedMessage
         }
-        binding.progressBar.isVisible = loadState is LoadState.Loading
-        binding.retryButton.isVisible = loadState !is LoadState.Loading
-        binding.errorMsg.isVisible = loadState !is LoadState.Loading
+        binding.pbLoadState.isVisible = loadState is LoadState.Loading
+        binding.btLoadStateRetry.isVisible = loadState !is LoadState.Loading
+        binding.tvLoadStateErrorMessage.isVisible = loadState !is LoadState.Loading
     }
 
     companion object {

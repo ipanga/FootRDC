@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import com.tootiyesolutions.footrdc.model.Article
 import com.tootiyesolutions.footrdc.model.Result
+import com.tootiyesolutions.footrdc.model.Tables
 import com.tootiyesolutions.footrdc.repository.AppRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +21,8 @@ import kotlinx.coroutines.flow.map
 class AppViewModel(private val repository: AppRepository) : ViewModel() {
 
     private var currentSearchNews: Flow<PagingData<UiModel>>? = null
-    private var currentSearchResults: Flow<PagingData<Result>>? = null
+    private var currentGamesResults: Flow<PagingData<Result>>? = null
+    private var currentTeamsTables: Flow<PagingData<Tables>>? = null
 
     fun fetchNews(): Flow<PagingData<UiModel>> {
 
@@ -58,10 +60,18 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
 
     // Search for games results
     fun fetchResults(): Flow<PagingData<Result>> {
-        val newResult: Flow<PagingData<Result>> = repository.getSearchResultsStream()
+        val newResult: Flow<PagingData<Result>> = repository.getResultsStream()
             .cachedIn(viewModelScope)
-        currentSearchResults = newResult
+        currentGamesResults = newResult
         return newResult
+    }
+
+    // Search for teams tables
+    fun fetchTables(): Flow<PagingData<Tables>> {
+        val newTables: Flow<PagingData<Tables>> = repository.getTablesStream()
+            .cachedIn(viewModelScope)
+        currentTeamsTables = newTables
+        return newTables
     }
 
 }

@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import com.tootiyesolutions.footrdc.api.ApiService
 import com.tootiyesolutions.footrdc.model.Article
 import com.tootiyesolutions.footrdc.model.Result
+import com.tootiyesolutions.footrdc.model.Tables
 import com.tootiyesolutions.footrdc.util.Constants.Companion.NEWS_ITEMS_PER_PAGE
 import com.tootiyesolutions.footrdc.util.Constants.Companion.VISIBLE_THRESHOLD
 import kotlinx.coroutines.flow.Flow
@@ -27,11 +28,19 @@ class AppRepository(private val service: ApiService) {
         ).flow
     }
 
-    fun getSearchResultsStream(): Flow<PagingData<Result>> {
+    fun getResultsStream(): Flow<PagingData<Result>> {
         Log.d("AppRepository", "New Search for Results")
         return Pager(
             config = PagingConfig(pageSize = NEWS_ITEMS_PER_PAGE, prefetchDistance = VISIBLE_THRESHOLD,enablePlaceholders = false),
             pagingSourceFactory = { ResultsPagingSource(service) }
+        ).flow
+    }
+
+    fun getTablesStream(): Flow<PagingData<Tables>> {
+        Log.d("AppRepository", "New Search for Tables")
+        return Pager(
+            config = PagingConfig(pageSize = 1, prefetchDistance = VISIBLE_THRESHOLD,enablePlaceholders = false),
+            pagingSourceFactory = { TablesPagingSource(service) }
         ).flow
     }
 }

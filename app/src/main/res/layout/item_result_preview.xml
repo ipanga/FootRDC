@@ -14,7 +14,7 @@
         android:layout_height="125dp">
 
         <TextView
-            android:id="@+id/resultTeam1"
+            android:id="@+id/tvResultTeam1"
             style="@style/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/resultTeam2"
+            android:id="@+id/tvResultTeam2"
             style="@style/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/resultScore1"
+            android:id="@+id/tvResultScore1"
             style="@style/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,10 +44,10 @@
             android:text='@{result.resultScores[0] ?? "-"}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/resultTeam1" />
+            app:layout_constraintTop_toTopOf="@+id/tvResultTeam1" />
 
         <TextView
-            android:id="@+id/resultScore2"
+            android:id="@+id/tvResultScore2"
             style="@style/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,10 +55,10 @@
             android:text='@{result.resultScores[1] ?? "-"}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/resultTeam2" />
+            app:layout_constraintTop_toTopOf="@+id/tvResultTeam2" />
 
         <TextView
-            android:id="@+id/resultDate"
+            android:id="@+id/tvResultDate"
             style="@style/Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -8,13 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tootiyesolutions.footrdc.R
 import com.tootiyesolutions.footrdc.databinding.ItemResultPreviewBinding
+import com.tootiyesolutions.footrdc.databinding.ItemTablePreviewBinding
 import com.tootiyesolutions.footrdc.model.Result
 
 class ResultsAdapter : PagingDataAdapter<Result, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
-
-    /*override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ResultViewHolder.create(parent)
-    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,9 +20,6 @@ class ResultsAdapter : PagingDataAdapter<Result, RecyclerView.ViewHolder>(REPO_C
             view
         )
     }
-    /*override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
-        holder.view.result = getItem(position)
-    }*/
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val repoItem = getItem(position)

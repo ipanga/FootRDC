@@ -1,11 +1,14 @@
 package com.tootiyesolutions.footrdc.adapter
 
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tootiyesolutions.footrdc.R
+import com.tootiyesolutions.footrdc.databinding.ItemNewsPreviewBinding
+import com.tootiyesolutions.footrdc.databinding.ItemResultPreviewBinding
 import com.tootiyesolutions.footrdc.ui.UiModel
 
 /**
@@ -38,9 +41,6 @@ class NewsAdapter : PagingDataAdapter<UiModel, RecyclerView.ViewHolder>(UIMODEL_
             }
         }
     }
-
-    // This is the tool that will compare lists and calculate differences
-    val differ = AsyncListDiffer(this, UIMODEL_COMPARATOR)
 
     companion object {
         private val UIMODEL_COMPARATOR = object : DiffUtil.ItemCallback<UiModel>() {

@@ -26,10 +26,10 @@
         tools:layout="@layout/fragment_results" />
 
     <fragment
-        android:id="@+id/navigation_search_news"
-        android:name="com.tootiyesolutions.footrdc.ui.fragments.SearchNewsFragment"
-        android:label="@string/search_news"
-        tools:layout="@layout/fragment_search_news" >
+        android:id="@+id/navigation_tables"
+        android:name="com.tootiyesolutions.footrdc.ui.fragments.TablesFragment"
+        android:label="@string/tables"
+        tools:layout="@layout/fragment_tables" >
         <action
             android:id="@+id/action_navigation_search_news_to_detailNewsFragment"
             app:destination="@id/detailNewsFragment"
