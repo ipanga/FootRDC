@@ -22,7 +22,8 @@ class FootRdcActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_breaking_news,
             R.id.navigation_results,
-            R.id.navigation_tables
+            R.id.navigation_tables,
+            R.id.navigation_fixtures
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)

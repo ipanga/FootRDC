@@ -1,5 +1,6 @@
 package com.tootiyesolutions.footrdc.repository
 
+import android.content.Context
 import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -11,6 +12,7 @@ import com.tootiyesolutions.footrdc.model.Tables
 import com.tootiyesolutions.footrdc.util.Constants.Companion.NEWS_ITEMS_PER_PAGE
 import com.tootiyesolutions.footrdc.util.Constants.Companion.VISIBLE_THRESHOLD
 import kotlinx.coroutines.flow.Flow
+import java.security.AccessController.getContext
 
 /**
  * Repository class that works with local and remote data sources.
@@ -28,11 +30,19 @@ class AppRepository(private val service: ApiService) {
         ).flow
     }
 
-    fun getResultsStream(): Flow<PagingData<Result>> {
+    fun getResultsStream(context: Context): Flow<PagingData<Result>> {
         Log.d("AppRepository", "New Search for Results")
         return Pager(
             config = PagingConfig(pageSize = NEWS_ITEMS_PER_PAGE, prefetchDistance = VISIBLE_THRESHOLD,enablePlaceholders = false),
-            pagingSourceFactory = { ResultsPagingSource(service) }
+            pagingSourceFactory = { ResultsPagingSource(service, context) }
+        ).flow
+    }
+
+    fun getFixturesStream(context: Context): Flow<PagingData<Result>> {
+        Log.d("AppRepository", "New Search for Fixtures")
+        return Pager(
+            config = PagingConfig(pageSize = NEWS_ITEMS_PER_PAGE, prefetchDistance = VISIBLE_THRESHOLD,enablePlaceholders = false),
+            pagingSourceFactory = { FixturesPagingSource(context) }
         ).flow
     }
 

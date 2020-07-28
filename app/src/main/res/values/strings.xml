@@ -5,4 +5,6 @@
     <string name="tables">League Tables</string>
     <string name="search_query">Your Search Query</string>
     <string name="retry">Retry</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fixtures">Fixtures</string>
 </resources>

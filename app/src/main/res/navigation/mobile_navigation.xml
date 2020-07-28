@@ -26,18 +26,17 @@
         tools:layout="@layout/fragment_results" />
 
     <fragment
+        android:id="@+id/navigation_fixtures"
+        android:name="com.tootiyesolutions.footrdc.ui.fragments.FixturesFragment"
+        android:label="fragment_fixtures"
+        tools:layout="@layout/fragment_fixtures" />
+
+    <fragment
         android:id="@+id/navigation_tables"
         android:name="com.tootiyesolutions.footrdc.ui.fragments.TablesFragment"
         android:label="@string/tables"
-        tools:layout="@layout/fragment_tables" >
-        <action
-            android:id="@+id/action_navigation_search_news_to_detailNewsFragment"
-            app:destination="@id/detailNewsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
+        tools:layout="@layout/fragment_tables" />
+
     <fragment
         android:id="@+id/detailNewsFragment"
         android:name="com.tootiyesolutions.footrdc.ui.fragments.DetailNewsFragment"

@@ -1,5 +1,6 @@
 package com.tootiyesolutions.footrdc.ui
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -22,6 +23,7 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
 
     private var currentSearchNews: Flow<PagingData<UiModel>>? = null
     private var currentGamesResults: Flow<PagingData<Result>>? = null
+    private var currentGamesFixtures: Flow<PagingData<Result>>? = null
     private var currentTeamsTables: Flow<PagingData<Tables>>? = null
 
     fun fetchNews(): Flow<PagingData<UiModel>> {
@@ -59,11 +61,19 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
     }
 
     // Search for games results
-    fun fetchResults(): Flow<PagingData<Result>> {
-        val newResult: Flow<PagingData<Result>> = repository.getResultsStream()
+    fun fetchResults(context: Context): Flow<PagingData<Result>> {
+        val newResult: Flow<PagingData<Result>> = repository.getResultsStream(context)
             .cachedIn(viewModelScope)
         currentGamesResults = newResult
         return newResult
+    }
+
+    // Search for next fitures
+    fun fetchFixtures(context: Context): Flow<PagingData<Result>> {
+        val newFixtures: Flow<PagingData<Result>> = repository.getFixturesStream(context)
+            .cachedIn(viewModelScope)
+        currentGamesFixtures = newFixtures
+        return newFixtures
     }
 
     // Search for teams tables
