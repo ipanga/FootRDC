@@ -40,7 +40,7 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
                     if (before == null) {
                         // we're at the beginning of the list
                         // return@insertSeparators UiModel.SeparatorItem("${after.id}0.000+ stars")
-                        return@insertSeparators null
+                        return@insertSeparators UiModel.ScoreItem("Dummy Text")
                     }
                     // check between 2 items
                     if (before.id!! > after.id!!) {
@@ -89,6 +89,7 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
 sealed class UiModel {
     data class NewsItem(val news: Article) : UiModel()
     data class SeparatorItem(val description: String) : UiModel()
+    data class ScoreItem(val scoreDummyText: String) : UiModel()
 }
 
 private val UiModel.NewsItem.id: Int?

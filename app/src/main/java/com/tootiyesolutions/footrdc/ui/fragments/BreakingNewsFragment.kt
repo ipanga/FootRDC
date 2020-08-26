@@ -1,7 +1,6 @@
 package com.tootiyesolutions.footrdc.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,15 +12,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.tootiyesolutions.footrdc.Injection
+import com.tootiyesolutions.footrdc.R
 import com.tootiyesolutions.footrdc.adapter.NewsAdapter
 import com.tootiyesolutions.footrdc.adapter.NewsLoadStateAdapter
 import com.tootiyesolutions.footrdc.databinding.FragmentBreakingNewsBinding
+import com.tootiyesolutions.footrdc.model.AllCategory
+import com.tootiyesolutions.footrdc.model.CategoryItem
 import com.tootiyesolutions.footrdc.ui.AppViewModel
 import com.tootiyesolutions.footrdc.util.Constants
+import kotlinx.android.synthetic.main.fragment_breaking_news.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 @ExperimentalCoroutinesApi
 class BreakingNewsFragment : Fragment() {
@@ -64,7 +68,37 @@ class BreakingNewsFragment : Fragment() {
         initAdapter()
         search()
         binding.btRetryBreakingNews.setOnClickListener { adapter.retry() }
+
+        binding.refreshLayoutBreakingNews.setOnRefreshListener {
+            adapter.refresh()
+            refreshLayoutBreakingNews.isRefreshing = false
+        }
+
         return view
+    }
+
+    companion object {
+        fun getAllScroe(): MutableList<AllCategory> {
+            val scoreItemList: MutableList<CategoryItem> = ArrayList()
+            val allScoreList: MutableList<AllCategory> = ArrayList()
+            scoreItemList.add(CategoryItem(1, R.drawable.hollywood1))
+            scoreItemList.add(CategoryItem(1, R.drawable.hollywood2))
+            scoreItemList.add(CategoryItem(1, R.drawable.hollywood3))
+            scoreItemList.add(CategoryItem(1, R.drawable.hollywood4))
+            scoreItemList.add(CategoryItem(1, R.drawable.hollywood5))
+            allScoreList.add(AllCategory("All Scores", scoreItemList))
+            return allScoreList
+        }
+
+        fun getAllAdvert(): MutableList<AllCategory> {
+            val advertItemList: MutableList<CategoryItem> = ArrayList()
+            val allAdvertList: MutableList<AllCategory> = ArrayList()
+            advertItemList.add(CategoryItem(1, R.drawable.bestofoscar1))
+            advertItemList.add(CategoryItem(1, R.drawable.bestofoscar2))
+            advertItemList.add(CategoryItem(1, R.drawable.bestofoscar3))
+            allAdvertList.add(AllCategory("All Adverts", advertItemList))
+            return allAdvertList
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -99,4 +133,5 @@ class BreakingNewsFragment : Fragment() {
             }
         }
     }
+
 }

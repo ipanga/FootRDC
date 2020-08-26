@@ -1,15 +1,14 @@
 package com.tootiyesolutions.footrdc.adapter
 
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tootiyesolutions.footrdc.R
-import com.tootiyesolutions.footrdc.databinding.ItemNewsPreviewBinding
-import com.tootiyesolutions.footrdc.databinding.ItemResultPreviewBinding
 import com.tootiyesolutions.footrdc.ui.UiModel
+import com.tootiyesolutions.footrdc.ui.fragments.BreakingNewsFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+
 
 /**
  * Adapter for the list of news.
@@ -17,10 +16,10 @@ import com.tootiyesolutions.footrdc.ui.UiModel
 class NewsAdapter : PagingDataAdapter<UiModel, RecyclerView.ViewHolder>(UIMODEL_COMPARATOR){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == R.layout.item_news_preview) {
-            NewsViewHolder.create(parent)
-        } else {
-            SeparatorViewHolder.create(parent)
+        return when (viewType) {
+            R.layout.item_news_preview -> { NewsViewHolder.create(parent) }
+            R.layout.item_view_separator -> { SeparatorViewHolder.create(parent) }
+            else -> { ScoreViewHolder.create(parent) }
         }
     }
 
@@ -28,16 +27,19 @@ class NewsAdapter : PagingDataAdapter<UiModel, RecyclerView.ViewHolder>(UIMODEL_
         return when (getItem(position)) {
             is UiModel.NewsItem -> R.layout.item_news_preview
             is UiModel.SeparatorItem -> R.layout.item_view_separator
+            is UiModel.ScoreItem -> R.layout.score_row_items
             null -> throw UnsupportedOperationException("Unknown view")
         }
     }
 
+    @ExperimentalCoroutinesApi
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val uiModel = getItem(position)
         uiModel.let {
             when (uiModel) {
                 is UiModel.NewsItem -> (holder as NewsViewHolder).bind(uiModel.news)
                 is UiModel.SeparatorItem -> (holder as SeparatorViewHolder).bind(uiModel.description)
+                is UiModel.ScoreItem -> (holder as ScoreViewHolder).bind(BreakingNewsFragment.getAllScroe(), BreakingNewsFragment.getAllAdvert())
             }
         }
     }

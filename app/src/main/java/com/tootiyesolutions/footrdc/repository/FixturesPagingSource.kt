@@ -21,7 +21,7 @@ class FixturesPagingSource(
             LoadResult.Page(
                 data = response,
                 prevKey = null,
-                nextKey = null
+                nextKey = null // Set to null since we just need to load only the first page
             )
         } catch (exception: IOException) {
             LoadResult.Error(exception)

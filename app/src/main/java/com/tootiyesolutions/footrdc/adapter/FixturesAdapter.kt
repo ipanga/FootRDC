@@ -8,15 +8,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tootiyesolutions.footrdc.R
 import com.tootiyesolutions.footrdc.databinding.ItemResultPreviewBinding
-import com.tootiyesolutions.footrdc.databinding.ItemTablePreviewBinding
 import com.tootiyesolutions.footrdc.model.Result
 
-class ResultsAdapter : PagingDataAdapter<Result, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
+class FixturesAdapter : PagingDataAdapter<Result, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FixturesViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = DataBindingUtil.inflate<ItemResultPreviewBinding>(inflater, R.layout.item_result_preview, parent, false)
-        return ResultsViewHolder(
+        return FixturesViewHolder(
             view
         )
     }
@@ -24,7 +23,7 @@ class ResultsAdapter : PagingDataAdapter<Result, RecyclerView.ViewHolder>(REPO_C
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val repoItem = getItem(position)
         if (repoItem != null) {
-            (holder as ResultsViewHolder).view.result = repoItem
+            (holder as FixturesViewHolder).view.result = repoItem
         }
     }
 
@@ -38,5 +37,5 @@ class ResultsAdapter : PagingDataAdapter<Result, RecyclerView.ViewHolder>(REPO_C
         }
     }
 
-    class ResultsViewHolder(var view: ItemResultPreviewBinding): RecyclerView.ViewHolder(view.root)
+    class FixturesViewHolder(var view: ItemResultPreviewBinding): RecyclerView.ViewHolder(view.root)
 }

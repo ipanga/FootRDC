@@ -23,10 +23,13 @@ class ResultsPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
         val position = params.key ?: NEWS_STARTING_PAGE_INDEX
         return try {
-            val response = service.getResults(RESULTS_LEAGUES, RESULTS_SEASONS, position, NEWS_ITEMS_PER_PAGE)
+            val apiResponse = service.getResults(RESULTS_LEAGUES, RESULTS_SEASONS, position, NEWS_ITEMS_PER_PAGE)
 
-            // Save Results in preferences that will be used later as Fixtures
-            prefHelper.savePrefsResults(response)
+            // Filter matches that have been played to display as Results
+            val response = if (position == 1) apiResponse.filter { it.resultStatus == "publish" } else apiResponse
+
+            // Save Results for first page in preferences that will be used later as Fixtures after filtering only planned games
+            if (position == 1) prefHelper.savePrefsResults(apiResponse.filter { it.resultStatus != "publish" })
 
             LoadResult.Page(
                 data = response,
